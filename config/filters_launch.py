@@ -1,8 +1,6 @@
 import os
-from ament_python_cmake_file_api import *  # noqa: unused, just for reference
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     pkg_dir = os.path.dirname(os.path.realpath(__file__))
