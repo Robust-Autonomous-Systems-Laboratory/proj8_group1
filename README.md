@@ -1,5 +1,5 @@
 # Project 8: Costmap Configuration and Autonomous Patrol
-Reid Beckes, Jackson Newell, Ian Mattson, and Anders Smitterberg Project 8
+Reid Beckes, Jackson Newell, Ian Mattson, and Anders Smitterberg
 
 
 # Introduction + Setup
@@ -18,7 +18,7 @@ Reid Beckes, Jackson Newell, Ian Mattson, and Anders Smitterberg Project 8
 
 ## Physical Floor Markers
 
-Blue tape marks both filter zones in front of the main door of EERC 722. The zone closest to the door (0–50 cm out) is the **keepout zone** chosen because someone opening the door may not see the robot and could step or trip on it. The band from 50–150 cm is the **speed restriction zone** (≤ 50% max speed), providing a safe buffer before the keepout area. oth areas are the width of the door. This also has the benefit of making is very easy to draw the boundaries in software.
+Blue tape marks both filter zones in front of the main door of EERC 722. The zone closest to the door (0–50 cm out) is the **keepout zone** chosen because someone opening the door may not see the robot and could step or trip on it. The band from 50–150 cm is the **speed restriction zone** (≤ 50% max speed), providing a safe buffer before the keepout area. both areas are the width of the door. This also has the benefit of making is very easy to draw the boundaries in software.
 
 | Zone | Distance from door |
 |------|--------------------|
