@@ -5,15 +5,14 @@ from launch_ros.actions import Node
 def generate_launch_description():
     pkg_dir = os.path.dirname(os.path.realpath(__file__))
 
-    params_file = os.path.join(pkg_dir, 'nav2_params.yaml')
     keepout_mask = os.path.join(pkg_dir, 'keepout_mask.yaml')
     speed_mask   = os.path.join(pkg_dir, 'speed_mask.yaml')
 
     lifecycle_nodes = [
         'keepout_filter_mask_server',
-        'keepout_costmap_filter_info_server',
+        'keepout_filter_info_server',
         'speed_filter_mask_server',
-        'speed_costmap_filter_info_server',
+        'speed_filter_info_server',
     ]
 
     return LaunchDescription([
@@ -30,7 +29,7 @@ def generate_launch_description():
         Node(
             package='nav2_map_server',
             executable='costmap_filter_info_server',
-            name='keepout_costmap_filter_info_server',
+            name='keepout_filter_info_server',
             output='screen',
             parameters=[{'use_sim_time': False,
                          'filter_info_topic': '/keepout_filter_info',
@@ -52,7 +51,7 @@ def generate_launch_description():
         Node(
             package='nav2_map_server',
             executable='costmap_filter_info_server',
-            name='speed_costmap_filter_info_server',
+            name='speed_filter_info_server',
             output='screen',
             parameters=[{'use_sim_time': False,
                          'filter_info_topic': '/speed_filter_info',
