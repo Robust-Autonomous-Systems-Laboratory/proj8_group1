@@ -3,15 +3,61 @@ Reid Beckes, Jackson Newell, Ian Mattson, and Anders Smitterberg Project 8
 
 
 # Introduction + Setup
-- ROS2 distribution and OS
-- How you setup the enviornment (ROS_DOMAIN_ID, model export, params file origin)
+
+__Project introduction blurb here!__
+
+This project is completed and tested in ROS2 Jazzy Jalisco on an Ubuntu 24.04 Noble Numbat PC.
+
+Each Turtlebot3 in EERC 722 is assigned a static IP on a lab managed wireless router. Our group used Turtlebot Anchovy, which is assigned local IP address 32.80.100.108 and `ROS_DOMAIN_ID=8`. 
+
+The testing enviornment is setup on a local PC by exporting the following parameter flags:
+```
+$ export ROS_DOMAIN_ID=8
+$ export TURTLEBOT3_MODEL=burger
+$ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+```
+__!! Need param file origin and model export still !!__
+
 - Any setup challenges and how you resolved them
 
 
 # Part 1 - Costmap Configuration
+
+### A. Identify baseline params
+
+local costmap defaults:
+
+inflation_radius = 0.5 cost_scaling_factor = 5.0
+
+global costmap defaults:
+
+inflation_radius = 0.5 cost_scaling_factor = 5.0
+
+
 - Table of parameter values tried (inflation radius, cost_scaling_factor) and observed effect on path planning
+
+| `inflation_radius` | `cost_scaling_factor` | Observed Effect |
+| :---------: | :---------: | :---------: |
+|  0.50  |  5.0  | __[Baseline]__  |
+|  0.15  |  2.0  |  X  |
+|  0.30  |  2.0  |  X  |
+|  0.45  |  2.0  |  X  |
+|  0.15  |  3.5  |  X  |
+|  0.30  |  3.5  |  X  |
+|  0.45  |  3.5  |  X  |
+|  0.15  |  5.0  |  X  |
+|  0.30  |  5.0  |  X  |
+|  0.45  |  5.0  |  X  |
+
+__Discussion on observed effects!__
+
+
 - Labeled before/after RViz2 screenshots
-- Explanation of the tradoff you made in choosing your final parameters
+(side by side screenshots of costmap with smallest and largest inflation radius, label each with param value)
+
+- Explanation of the tradeoff you made in choosing your final parameters
+
+
 - Obstacle layer screenshot with real-time detection visible
 
 # Part 2 - Keepout and Speed Filter Zones 
