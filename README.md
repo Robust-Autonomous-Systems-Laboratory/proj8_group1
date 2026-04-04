@@ -55,8 +55,16 @@ __Discussion on observed effects!__
 - Labeled before/after RViz2 screenshots
 (side by side screenshots of costmap with smallest and largest inflation radius, label each with param value)
 
+![Figure 1](./figures/project8_part1_map_comparison.png)
+
+Figure 1: Smallest and largest tested inflation radius costmaps in RViz
+
 - Explanation of the tradeoff you made in choosing your final parameters
 
+
+![Figure 2](./figures/costmap_tuned_0.15_inflation.png)
+
+Figure 2: Tuned `inflation_radius` and `cost_scaling_factor` parameters.
 
 - Obstacle layer screenshot with real-time detection visible
 
@@ -85,6 +93,16 @@ raytrace_min_range: 0.0
 obstacle_max_range: 0.5
 obstacle_min_range: 0.0
 ```
+
+![Figure 3](./figures/obstacle_range_costmap.png)
+
+Figure 3: Real-time object detection with __XXXX__ tuned param values
+
+
+
+![Figure 4](./figures/project8_part1c_comparison.png)
+
+Figure 4: Comparison of decreased, default, and increased `obstacle_max_range` and `raytrace_max_range` parameters. As 
 
 
 # Part 2 - Keepout and Speed Filter Zones 
