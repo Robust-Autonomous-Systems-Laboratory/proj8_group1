@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'patrol_node = patrol.patrol_node:main',
         ],
     },
 )
