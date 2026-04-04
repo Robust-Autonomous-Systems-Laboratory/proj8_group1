@@ -1,9 +1,16 @@
 import rclpy
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from geometry_msgs.msg import PoseStamped
+import argparse
 
 def main()->None:
-    rclpy.init()
+    # Get args
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cycles", default=3, type=int)
+    args, other = parser.parse_known_args()
+    cycles = args.cycles
+
+    rclpy.init(args=other)
     navigator = BasicNavigator()
 
     # Wait for the navigation stack to be ready
@@ -56,21 +63,22 @@ def main()->None:
     patrol_points[4].pose.orientation.w = 0.562
 
     # Start patrol loop
-    task = navigator.followWaypoints(patrol_points)
-    while not navigator.isTaskComplete(task=follow_waypoints_task):
-        feedback = navigator.getFeedback(task=follow_waypoints_task)
-        navigator.get_logger().info(f"Navigating to waypoint {feedback.current_waypoint}")
+    for i in range(cycles):
+        task = navigator.followWaypoints(patrol_points)
+        while not navigator.isTaskComplete(task=follow_waypoints_task):
+            feedback = navigator.getFeedback(task=follow_waypoints_task)
+            navigator.get_logger().info(f"Navigating to waypoint {feedback.current_waypoint}")
 
-    result = navigator.getResult();
-    if result == TaskResult.SUCCEEDED:
-        navigator.get_logger().info('Goal succeeded!')
-    elif result == TaskResult.CANCELED:
-        navigator.get_logger().info('Goal was canceled!')
-    elif result == TaskResult.FAILED:
-        (error_code, error_msg) = navigator.getTaskError()
-        navigator.get_logger().error('Goal failed!{error_code}:{error_msg}')
-    else:
-        print('Goal has an invalid return status!')
+        result = navigator.getResult();
+        if result == TaskResult.SUCCEEDED:
+            navigator.get_logger().info('Goal succeeded!')
+        elif result == TaskResult.CANCELED:
+            navigator.get_logger().info('Goal was canceled!')
+        elif result == TaskResult.FAILED:
+            (error_code, error_msg) = navigator.getTaskError()
+            navigator.get_logger().error('Goal failed!{error_code}:{error_msg}')
+        else:
+            navigator.get_logger().error('Goal has an invalid return status!')
 
     navigator.lifecycleShutdown()
 
