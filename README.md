@@ -38,16 +38,16 @@ inflation_radius = 0.5 cost_scaling_factor = 5.0
 
 | `inflation_radius` | `cost_scaling_factor` | Observed Effect |
 | :---------: | :---------: | :---------: |
-|  0.50  |  5.0  | __[Baseline]__  |
-|  0.15  |  2.0  |  X  |
-|  0.30  |  2.0  |  X  |
-|  0.45  |  2.0  |  X  |
-|  0.15  |  3.5  |  X  |
-|  0.30  |  3.5  |  X  |
-|  0.45  |  3.5  |  X  |
-|  0.15  |  5.0  |  X  |
-|  0.30  |  5.0  |  X  |
-|  0.45  |  5.0  |  X  |
+|  0.50  |  5.0  | __[Baseline]__ Collision with object  |
+|  0.15  |  2.0  |  Success, meandered  |
+|  0.30  |  2.0  |  Collision with object  |
+|  0.45  |  2.0  |  Success, very straight path  |
+|  0.15  |  3.5  |  Success, meandered and very close collision |
+|  0.30  |  3.5  |  Collision with object  |
+|  0.45  |  3.5  |  Collision with object  |
+|  0.15  |  5.0  |  Success, meandered and very close collision  |
+|  0.30  |  5.0  |  Success, meandered and very close collision  |
+|  0.45  |  5.0  |  Collision with object  |
 
 __Discussion on observed effects!__
 
@@ -59,6 +59,33 @@ __Discussion on observed effects!__
 
 
 - Obstacle layer screenshot with real-time detection visible
+
+
+Default `obstacle_range` and `raytrace_range` :
+
+```
+raytrace_max_range: 3.0
+raytrace_min_range: 0.0
+obstacle_max_range: 2.5
+obstacle_min_range: 0.0
+```
+
+Increased range params:
+```
+raytrace_max_range: 5.0
+raytrace_min_range: 0.0
+obstacle_max_range: 4.5
+obstacle_min_range: 0.0
+```
+
+Decreased range params:
+```
+raytrace_max_range: 1.0
+raytrace_min_range: 0.0
+obstacle_max_range: 0.5
+obstacle_min_range: 0.0
+```
+
 
 # Part 2 - Keepout and Speed Filter Zones 
 - Photo of physical floor markers
