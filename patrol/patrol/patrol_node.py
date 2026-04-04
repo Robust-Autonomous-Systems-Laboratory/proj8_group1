@@ -63,10 +63,11 @@ def main()->None:
     patrol_points[4].pose.orientation.w = 0.562
 
     # Start patrol loop
+    # task=follow_waypoints_task
     for i in range(cycles):
         task = navigator.followWaypoints(patrol_points)
-        while not navigator.isTaskComplete(task=follow_waypoints_task):
-            feedback = navigator.getFeedback(task=follow_waypoints_task)
+        while not navigator.isTaskComplete():
+            feedback = navigator.getFeedback()
             navigator.get_logger().info(f"Navigating to waypoint {feedback.current_waypoint}")
 
         result = navigator.getResult();
