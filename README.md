@@ -36,7 +36,7 @@ The Turtlebot's Nav2 package uses the following parameters as a baseline inflati
 | global costmap | 0.5 | 5.0 |
 
 
-## Paramter Tuning
+## Parameter Tuning
 
 Using the initial parameters as a baseline, variations of the two parameters were tested by launching the Turtlebot Nav2 stack and setting a 2D pose estimate before sending a Nav2 goal pose through a narrow coordidor. The following permutations were tested for the local and global costmap parameters with the noted results:
 
