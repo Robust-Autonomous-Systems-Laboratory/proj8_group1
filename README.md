@@ -103,7 +103,7 @@ Figure 4: Real-time object detection with an `obstacle_max_range` of 0.5 m and a
 
 ## Physical Floor Markers
 
-Blue tape marks both filter zones in front of the main door of EERC 722. The zone closest to the door (0–50 cm out) is the **keepout zone** chosen because someone opening the door may not see the robot and could step or trip on it. The band from 50–150 cm is the **speed restriction zone** (≤ 50% max speed), providing a safe buffer before the keepout area. both areas are the width of the door. This also has the benefit of making is very easy to draw the boundaries in software.
+Blue tape marks both filter zones in front of the main door of EERC 722. The zone closest to the door (0–50 cm out) is the **keepout zone** chosen because someone opening the door may not see the robot and could step or trip on it. The band from 50–150 cm is the **speed restriction zone** (≤ 50% max speed), providing a safe buffer before the keepout area. both areas are the width of the door. This also has the benefit of making is very easy to draw the boundaries in software. Additionally, the tables were designated to be keepout zones, excepting one set of tables, where the robot can safely navigate under, making patrol easier.
 
 | Zone | Distance from door |
 |------|--------------------|
@@ -123,7 +123,7 @@ Blue tape marks both filter zones in front of the main door of EERC 722. The zon
 ![Speed zone outer corner](figures/IMG_0206.jpg)
 
 ### Keepout zone in costmap (RViz2)
-![Keepout zone rendered as lethal cells in costmap](figures/keepout_in_costmap.png)
+![Keepout zone rendered as lethal cells in costmap, including table keepout zones](figures/keepout_in_costmap.png)
 
 ### Keepout zone demonstration — robot routes around zone
 ![Keepout zone demo](figures/keepout_demo.gif)
@@ -131,7 +131,19 @@ Blue tape marks both filter zones in front of the main door of EERC 722. The zon
 ### Speed restriction zone demonstration — robot slows on entry
 ![Speed zone demo](figures/speed_zone_demo.gif)
 
-- Explanation of how you created the masks (tool used, coordinate derivation)
+The door keepout zones were chosen to be both practical and easy to identify on the map. The keepout and speed zones were defined relative to the door frame, which was clearly visible in the map.
+
+To determine the correct size and placement of the zones in GIMP, we followed these steps:
+1. Measured the real-world width of the door in centimeters.
+2. Opened the map image in GIMP and used the measure tool to find the number of pixels corresponding to the door opening width.
+3. Calculated the pixels-per-meter ratio (pixels measured / real-world meters).
+4. Created a new layer and, using the rectangle select tool, drew the keepout zone extending 50 cm (using the calculated pixel length) from the door.
+5. Repeated the process on another layer for the speed reduction zone (50–150 cm from the door).
+6. For table keepout zones, identified table locations and drew rectangles over them on the appropriate layers.
+7. Selected all black pixels in each layer, inverted the selection, and filled the rest with white to ensure proper mask formatting.
+8. Exported each layer as a separate image file for use as a costmap filter.
+
+I did not need to determine coordinates using this method, as all the zones could be drawn relative to known features.
 
 # Part 3 - Patrol Script
 - Waypoint table: ID, map-frame coordinates, brief description of location
