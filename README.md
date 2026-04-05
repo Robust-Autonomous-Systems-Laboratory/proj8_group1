@@ -125,7 +125,12 @@ Blue tape marks both filter zones in front of the main door of EERC 722. The zon
 ### Keepout zone in costmap (RViz2)
 ![Keepout zone rendered as lethal cells in costmap](figures/keepout_in_costmap.png)
 
-- Speed zone validation evidence (cmd_vel output or RViz2 velocity display)
+### Keepout zone demonstration — robot routes around zone
+![Keepout zone demo](figures/keepout_demo.gif)
+
+### Speed restriction zone demonstration — robot slows on entry
+![Speed zone demo](figures/speed_zone_demo.gif)
+
 - Explanation of how you created the masks (tool used, coordinate derivation)
 
 # Part 3 - Patrol Script
