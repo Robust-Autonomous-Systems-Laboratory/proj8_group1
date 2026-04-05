@@ -11,7 +11,7 @@ This project is completed and tested in ROS2 Jazzy Jalisco on an Ubuntu 24.04 No
 Each Turtlebot3 in EERC 722 is assigned a static IP on a lab managed wireless router. Our group used Turtlebot Anchovy, which is assigned local IP address 32.80.100.108 and `ROS_DOMAIN_ID=8`. 
 
 The testing enviornment is setup on a local PC by exporting the following parameter flags:
-```
+```bash
 $ export ROS_DOMAIN_ID=8
 $ export TURTLEBOT3_MODEL=burger
 $ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -157,7 +157,7 @@ All commands are run from the workspace root (`proj8_ws/`). Source the workspace
 
 ```bash
 export TURTLEBOT3_MODEL=burger
-export ROS_DOMAIN_ID=4
+export ROS_DOMAIN_ID=8
 source install/setup.bash
 ```
 
@@ -198,3 +198,6 @@ ros2 run patrol patrol_node.py --cycles 3
 **2. README formatting**
 - *Prompt:* Asked GenAI to format the Usage Instructions section of the README with correct launch commands for Part 2.
 - *Verification:* Commands were reviewed and tested on the real robot.
+
+**Ian Mattson** did not use any GenAI for this project.
+
