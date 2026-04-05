@@ -184,4 +184,12 @@ ros2 run patrol patrol_node.py --cycles 3
 
 # AI Disclosure
 
-GenAI was not used in any component of this project.
+**Anders Smitterberg** used Generative AI to assist with Part 2 of this project in the following areas:
+
+**1. Debugging filter servers not appearing in the Nav2 costmap**
+- *Prompt:* Provided terminal output (`ros2 topic list`, Nav2 launch logs) and asked GenAI to diagnose why the keepout and speed filter zones were not visible in RViz2.
+- *Verification:* Claude identified the `docking_server` was crashing on startup due to a `cmd_vel` topic type mismatch (`Twist` vs `TwistStamped`), causing `lifecycle_manager_navigation` to abort bringup entirely. Both diagnoses were confirmed by inspecting `ros2 topic info` subscriber counts and the Nav2 terminal error logs. The fix (`enable_stamped_cmd_vel: true` in `docking_server` params) was verified by relaunching Nav2 and confirming subscriber count rose to 2.
+
+**2. README formatting**
+- *Prompt:* Asked GenAI to format the Usage Instructions section of the README with correct launch commands for Part 2.
+- *Verification:* Commands were reviewed and tested on the real robot.
