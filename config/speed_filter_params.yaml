@@ -12,4 +12,4 @@ speed_filter_info_server:
     filter_info_topic: "/speed_filter_info"
     mask_topic: "/speed_filter_mask"
     base: 0.0
-    multiplier: 0.5
+    multiplier: 0.1

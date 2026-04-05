@@ -37,7 +37,9 @@ Blue tape marks both filter zones in front of the main door of EERC 722. The zon
 ![Speed zone outer corners](figures/IMG_0205.jpg)
 ![Speed zone outer corner](figures/IMG_0206.jpg)
 
-- RViz2 screenshots: keepout cells in costmap, path routing around zone, goal rejection
+### Keepout zone in costmap (RViz2)
+![Keepout zone rendered as lethal cells in costmap](figures/keepout_in_costmap.png)
+
 - Speed zone validation evidence (cmd_vel output or RViz2 velocity display)
 - Explanation of how you created the masks (tool used, coordinate derivation)
 
@@ -53,8 +55,34 @@ Blue tape marks both filter zones in front of the main door of EERC 722. The zon
 - Comparison to Project 3 dead-reckoning drift
 
 # Usage Instructions
-Step-by-step instructions for a grader to reproduce your patrol run from scratch, including:
 
-- How to launch the Turtlebot3 bringup
-- How to launch Nav2 with your params and filter servers
-- How to run the patrol script
+All commands are run from the workspace root (`proj8_ws/`). Source the workspace and set the robot model before running anything:
+
+```bash
+export TURTLEBOT3_MODEL=burger
+export ROS_DOMAIN_ID=4
+source install/setup.bash
+```
+
+### Terminal 1 — TurtleBot3 bringup (SSH into robot, run on the robot)
+```bash
+ros2 launch turtlebot3_bringup robot.launch.py
+```
+
+### Terminal 2 — Costmap filter servers (workstation)
+```bash
+ros2 launch src/config/filters_launch.py
+```
+Wait until you see `Managed nodes are active` before proceeding.
+
+### Terminal 3 — Nav2 (workstation)
+```bash
+ros2 launch turtlebot3_navigation2 navigation2.launch.py \
+  use_sim_time:=False \
+  map:=src/maps/eerc722.yaml \
+  params_file:=src/config/nav2_params.yaml
+```
+
+Once Nav2 is up, use RViz2's **2D Pose Estimate** to initialize AMCL before sending any navigation goals.
+
+still need - How to run the patrol script
