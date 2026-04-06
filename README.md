@@ -228,3 +228,4 @@ ros2 run patrol patrol_node.py --cycles 3
 
 **Ian Mattson** did not use any GenAI for this project.
 
+**Jackson Newell** did not use any GenAI for this project.
