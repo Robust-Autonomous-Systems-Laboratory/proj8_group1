@@ -11,7 +11,7 @@ This project is completed and tested in ROS2 Jazzy Jalisco on an Ubuntu 24.04 No
 Each Turtlebot3 in EERC 722 is assigned a static IP on a lab managed wireless router. Our group used Turtlebot Anchovy, which is assigned local IP address 32.80.100.108 and `ROS_DOMAIN_ID=8`. 
 
 The testing enviornment is setup on a local PC by exporting the following parameter flags:
-```
+```bash
 $ export ROS_DOMAIN_ID=8
 $ export TURTLEBOT3_MODEL=burger
 $ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -19,7 +19,9 @@ $ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
 The Turtlebot3 modified Nav2 parameters are located here: [`/config/nav2_params.yaml`](./config/nav2_params.yaml).  Further instructions on launching the Turtlebot3 Nav2 node are in the Usage Instructions section.
 
-### - Any setup challenges and how you resolved them (update before submission) !!!
+### - Any setup challenges and how you resolved them (update before submission) !!! FACT CHECK PLEASE (i was unsure of what the problem with nav2 was)
+
+Setting up to run the final test case had a couple challenges pop up. One main was the difference between Nav2 Parameters and Turtlebot3 Nav2 Parameters. There are different parameters for each, so the Nav2 yaml file had to be altered to fit what was being used. However, the Nav2 Parameters were made to work with the Turtlebot so the issue was resolved. Another challenge was with the speed zones. There was very strange behavior with the speed zones as the Turtlebot would stop in the middle of one of them. After looking at the issue for a while, the speed zone mask was altered to remove that speed zone and the patrol began to work fine. The ultimate cause for this issue was never found.
 
 
 # Part 1 - Costmap Configuration
@@ -103,7 +105,7 @@ Figure 4: Real-time object detection with an `obstacle_max_range` of 0.5 m and a
 
 ## Physical Floor Markers
 
-Blue tape marks both filter zones in front of the main door of EERC 722. The zone closest to the door (0–50 cm out) is the **keepout zone** chosen because someone opening the door may not see the robot and could step or trip on it. The band from 50–150 cm is the **speed restriction zone** (≤ 50% max speed), providing a safe buffer before the keepout area. both areas are the width of the door. This also has the benefit of making is very easy to draw the boundaries in software.
+Blue tape marks both filter zones in front of the main door of EERC 722. The zone closest to the door (0–50 cm out) is the **keepout zone** chosen because someone opening the door may not see the robot and could step or trip on it. The band from 50–150 cm is the **speed restriction zone** (≤ 50% max speed), providing a safe buffer before the keepout area. both areas are the width of the door. This also has the benefit of making is very easy to draw the boundaries in software. Additionally, the tables were designated to be keepout zones, excepting one set of tables, where the robot can safely navigate under, making patrol easier.
 
 | Zone | Distance from door |
 |------|--------------------|
@@ -123,7 +125,7 @@ Blue tape marks both filter zones in front of the main door of EERC 722. The zon
 ![Speed zone outer corner](figures/IMG_0206.jpg)
 
 ### Keepout zone in costmap (RViz2)
-![Keepout zone rendered as lethal cells in costmap](figures/keepout_in_costmap.png)
+![Keepout zone rendered as lethal cells in costmap, including table keepout zones](figures/keepout_in_costmap.png)
 
 ### Keepout zone demonstration — robot routes around zone
 ![Keepout zone demo](figures/keepout_demo.gif)
@@ -131,25 +133,50 @@ Blue tape marks both filter zones in front of the main door of EERC 722. The zon
 ### Speed restriction zone demonstration — robot slows on entry
 ![Speed zone demo](figures/speed_zone_demo.gif)
 
-- Explanation of how you created the masks (tool used, coordinate derivation)
+The door keepout zones were chosen to be both practical and easy to identify on the map. The keepout and speed zones were defined relative to the door frame, which was clearly visible in the map.
+
+To determine the correct size and placement of the zones in GIMP, we followed these steps:
+1. Measured the real-world width of the door in centimeters.
+2. Opened the map image in GIMP and used the measure tool to find the number of pixels corresponding to the door opening width.
+3. Calculated the pixels-per-meter ratio (pixels measured / real-world meters).
+4. Created a new layer and, using the rectangle select tool, drew the keepout zone extending 50 cm (using the calculated pixel length) from the door.
+5. Repeated the process on another layer for the speed reduction zone (50–150 cm from the door).
+6. For table keepout zones, identified table locations and drew rectangles over them on the appropriate layers.
+7. Selected all black pixels in each layer, inverted the selection, and filled the rest with white to ensure proper mask formatting.
+8. Exported each layer as a separate image file for use as a costmap filter.
+
+I did not need to determine coordinates using this method, as all the zones could be drawn relative to known features.
 
 # Part 3 - Patrol Script
 - Waypoint table: ID, map-frame coordinates, brief description of location
 - Description of your loop closure check implementation
 - Terminal output from a patrol run (copy-paste the log)
 
+
+
+## Terminal Output
+
+The log from the patrol script can be viewed in the final patrol run video in part 4. It is on the left side of the screen in the bottom right terminal. The log is lengthy with updates at each step so it would clutter this file. 
+
 # Part 4 - Patrol Execution and Analysis
 - Link to patrol video (or embedded if commited directly)
 - Recovery event description (what happened, Nav2's response, your mitigation)
 - Comparison to Project 3 dead-reckoning drift
 
+## Recovery Event
+
+During the final patrol run recorded, it can be seen in the last cycle that an object is put in its way from waypoint three to the starting waypoint, waypoint four. Initially it seems like the turtlebot is going to go around it already, but as it approaches the object, the turtlebot stops. The obstacle was processed and the inflation of the object made the turtlebot stop, enter recovery, and reroute. The behavior is somewhat odd, but is still able to route to the final point to complete the cycle. So, the waypoint didn't fail and was able to recover. The recovery event though, seemed to be caused by the obstacle radius being too close to the robot. If the turtlebot was able to sense the object in its path before it had gotten to close, then, its path to the final waypoint could have been smoother and cleared the obstacle completely.
+
+
 ## Drift Analysis
 
 | Cycle | Start Pose (x,y) | End Pose (x,y) | Drift (m) |
 | :--: | :--: | :--: | :--: |
-| 1 |  X  |  X  |  X  |
-| 2 |  X  |  X  |  X  |
-| 3 |  X  |  X  |  X  |
+| 1 |  (2.65, -4.11)  |  (2.76, -4.10)  |  0.11 m  |
+| 2 |  (2.76, -4.10)  |  (2.77, -4.10)  |  0.12 m  |
+| 3 |  (2.77, -4.10)  |  (2.71, -4.08)  |  0.06 m  |
+
+The table above showcases the drift exhibited in the final patrol case. The drift is calculated with respect to the original starting distance of cycle one. After cycle one the drift goes to 0.11 m away from the starting point, then after the second cycle it is slightly worse at 0.12 m. However, at the end of the third and final cycle, the drift is 0.06 m from the original starting point. Therefore, the drift across cycles is not consistent. The first and second cycles are consistent with their drifts, but then it is reduced in the third. With this in mind, the AMCL does seem to recorrect itself as the cycles happen. Some reasons behind this include loop closures improving the localization and checking landmarks in that loop multiple times. This drift compared to Project 3's drift is much improved. The drift in Project 3 using the IMU was horrible due to noise and other factors. The pose estimation using the cmd_vel was solid within the scope of Project 3 and is comparable to this project's drift. However, if the system used in Project 3 was used for this project, then the drift would probably be over a meter.
 
 # Usage Instructions
 
@@ -157,7 +184,7 @@ All commands are run from the workspace root (`proj8_ws/`). Source the workspace
 
 ```bash
 export TURTLEBOT3_MODEL=burger
-export ROS_DOMAIN_ID=4
+export ROS_DOMAIN_ID=8
 source install/setup.bash
 ```
 
@@ -198,3 +225,7 @@ ros2 run patrol patrol_node.py --cycles 3
 **2. README formatting**
 - *Prompt:* Asked GenAI to format the Usage Instructions section of the README with correct launch commands for Part 2.
 - *Verification:* Commands were reviewed and tested on the real robot.
+
+**Ian Mattson** did not use any GenAI for this project.
+
+**Jackson Newell** did not use any GenAI for this project.
