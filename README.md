@@ -19,7 +19,9 @@ $ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
 The Turtlebot3 modified Nav2 parameters are located here: [`/config/nav2_params.yaml`](./config/nav2_params.yaml).  Further instructions on launching the Turtlebot3 Nav2 node are in the Usage Instructions section.
 
-### - Any setup challenges and how you resolved them (update before submission) !!!
+### - Any setup challenges and how you resolved them (update before submission) !!! FACT CHECK PLEASE (i was unsure of what the problem with nav2 was)
+
+Setting up to run the final test case had a couple challenges pop up. One main was the difference between Nav2 Parameters and Turtlebot3 Nav2 Parameters. There are different parameters for each, so the Nav2 yaml file had to be altered to fit what was being used. However, the Nav2 Parameters were made to work with the Turtlebot so the issue was resolved. Another challenge was with the speed zones. There was very strange behavior with the speed zones as the Turtlebot would stop in the middle of one of them. After looking at the issue for a while, the speed zone mask was altered to remove that speed zone and the patrol began to work fine. The ultimate cause for this issue was never found.
 
 
 # Part 1 - Costmap Configuration
@@ -150,18 +152,31 @@ I did not need to determine coordinates using this method, as all the zones coul
 - Description of your loop closure check implementation
 - Terminal output from a patrol run (copy-paste the log)
 
+
+
+## Terminal Output
+
+The log from the patrol script can be viewed in the final patrol run video in part 4. It is on the left side of the screen in the bottom right terminal. The log is lengthy with updates at each step so it would clutter this file. 
+
 # Part 4 - Patrol Execution and Analysis
 - Link to patrol video (or embedded if commited directly)
 - Recovery event description (what happened, Nav2's response, your mitigation)
 - Comparison to Project 3 dead-reckoning drift
 
+## Recovery Event
+
+During the final patrol run recorded, it can be seen in the last cycle that an object is put in its way from waypoint three to the starting waypoint, waypoint four. Initially it seems like the turtlebot is going to go around it already, but as it approaches the object, the turtlebot stops. The obstacle was processed and the inflation of the object made the turtlebot stop, enter recovery, and reroute. The behavior is somewhat odd, but is still able to route to the final point to complete the cycle. So, the waypoint didn't fail and was able to recover. The recovery event though, seemed to be caused by the obstacle radius being too close to the robot. If the turtlebot was able to sense the object in its path before it had gotten to close, then, its path to the final waypoint could have been smoother and cleared the obstacle completely.
+
+
 ## Drift Analysis
 
 | Cycle | Start Pose (x,y) | End Pose (x,y) | Drift (m) |
 | :--: | :--: | :--: | :--: |
-| 1 |  X  |  X  |  X  |
-| 2 |  X  |  X  |  X  |
-| 3 |  X  |  X  |  X  |
+| 1 |  (2.65, -4.11)  |  (2.76, -4.10)  |  0.11 m  |
+| 2 |  (2.76, -4.10)  |  (2.77, -4.10)  |  0.12 m  |
+| 3 |  (2.77, -4.10)  |  (2.71, -4.08)  |  0.06 m  |
+
+The table above showcases the drift exhibited in the final patrol case. The drift is calculated with respect to the original starting distance of cycle one. After cycle one the drift goes to 0.11 m away from the starting point, then after the second cycle it is slightly worse at 0.12 m. However, at the end of the third and final cycle, the drift is 0.06 m from the original starting point. Therefore, the drift across cycles is not consistent. The first and second cycles are consistent with their drifts, but then it is reduced in the third. With this in mind, the AMCL does seem to recorrect itself as the cycles happen. Some reasons behind this include loop closures improving the localization and checking landmarks in that loop multiple times. This drift compared to Project 3's drift is much improved. The drift in Project 3 using the IMU was horrible due to noise and other factors. The pose estimation using the cmd_vel was solid within the scope of Project 3 and is comparable to this project's drift. However, if the system used in Project 3 was used for this project, then the drift would probably be over a meter.
 
 # Usage Instructions
 
@@ -210,3 +225,5 @@ ros2 run patrol patrol_node.py --cycles 3
 **2. README formatting**
 - *Prompt:* Asked GenAI to format the Usage Instructions section of the README with correct launch commands for Part 2.
 - *Verification:* Commands were reviewed and tested on the real robot.
+
+**Jackson Newell** did not use Generative AI in Project 8
