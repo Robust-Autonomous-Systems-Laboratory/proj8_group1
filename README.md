@@ -152,6 +152,13 @@ I did not need to determine coordinates using this method, as all the zones coul
 - Description of your loop closure check implementation
 - Terminal output from a patrol run (copy-paste the log)
 
+|Waypoint|Position (x,y)|Orientation (z,w)|Description|
+|:------:|:------------:|:---------------:|:---------:|
+|    0   |5.481, 0.697 |0.646, 0.763  |Middle row, west wall|
+|    1   |5.099, 4.019 |0.999, 0.038  |Back row, west wall|
+|    2   |-1.785, 2.106|-0.748, 0.664 |Between middle and back row, east wall|
+|    3   |-0.984, -3.599|-0.833, 0.554|Next to door. east wall|
+|    4   |2.764, -4.074|0.826, 0.562  |TA desk leg, north wall|
 
 
 ## Terminal Output
