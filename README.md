@@ -19,9 +19,9 @@ $ export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
 The Turtlebot3 modified Nav2 parameters are located here: [`/config/nav2_params.yaml`](./config/nav2_params.yaml).  Further instructions on launching the Turtlebot3 Nav2 node are in the Usage Instructions section.
 
-### - Any setup challenges and how you resolved them (update before submission) !!! FACT CHECK PLEASE (i was unsure of what the problem with nav2 was)
+### Setup Challenges + Resolutions
 
-Setting up to run the final test case had a couple challenges pop up. One main was the difference between Nav2 Parameters and Turtlebot3 Nav2 Parameters. There are different parameters for each, so the Nav2 yaml file had to be altered to fit what was being used. However, the Nav2 Parameters were made to work with the Turtlebot so the issue was resolved. Another challenge was with the speed zones. There was very strange behavior with the speed zones as the Turtlebot would stop in the middle of one of them. After looking at the issue for a while, the speed zone mask was altered to remove that speed zone and the patrol began to work fine. The ultimate cause for this issue was never found.
+Setting up to run the final test case had a couple challenges pop up. One challenge was with the speed zones. There was very strange behavior with the speed zones as the Turtlebot would stop in the middle of one of them. After looking at the issue for a while, the speed zone mask was altered to remove that speed zone and the patrol began to work fine. The ultimate cause for this issue was not found.
 
 
 # Part 1 - Costmap Configuration
@@ -159,9 +159,12 @@ I did not need to determine coordinates using this method, as all the zones coul
 The log from the patrol script can be viewed in the final patrol run video in part 4. It is on the left side of the screen in the bottom right terminal. The log is lengthy with updates at each step so it would clutter this file. 
 
 # Part 4 - Patrol Execution and Analysis
-- Link to patrol video (or embedded if commited directly)
-- Recovery event description (what happened, Nav2's response, your mitigation)
-- Comparison to Project 3 dead-reckoning drift
+
+## Patrol Video
+
+The video demonstrating patrol behavior for three cycles is available here: https://youtu.be/_VhuCrDY3xc
+
+A screen recording of Nav2 Rviz is synced to the video of the physical robot as it navigates around the room.
 
 ## Recovery Event
 
@@ -190,18 +193,18 @@ source install/setup.bash
 
 ### Terminal 1 — TurtleBot3 bringup (SSH into robot, run on the robot)
 ```bash
-ros2 launch turtlebot3_bringup robot.launch.py
+$ ros2 launch turtlebot3_bringup robot.launch.py
 ```
 
 ### Terminal 2 — Costmap filter servers (workstation)
 ```bash
-ros2 launch src/config/filters_launch.py
+$ ros2 launch src/config/filters_launch.py
 ```
 Wait until you see `Managed nodes are active` before proceeding.
 
 ### Terminal 3 — Nav2 (workstation)
 ```bash
-ros2 launch turtlebot3_navigation2 navigation2.launch.py \
+$ ros2 launch turtlebot3_navigation2 navigation2.launch.py \
   use_sim_time:=False \
   map:=src/maps/eerc722.yaml \
   params_file:=src/config/nav2_params.yaml
@@ -211,7 +214,7 @@ Once Nav2 is up, use RViz2's **2D Pose Estimate** to initialize AMCL before send
 
 ### Terminal 4 — Patrol script
 ```bash
-ros2 run patrol patrol_node.py --cycles 3
+$ ros2 run patrol patrol_node.py --cycles 3
 ```
 
 # AI Disclosure
