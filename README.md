@@ -148,11 +148,19 @@ To determine the correct size and placement of the zones in GIMP, we followed th
 I did not need to determine coordinates using this method, as all the zones could be drawn relative to known features.
 
 # Part 3 - Patrol Script
-- Waypoint table: ID, map-frame coordinates, brief description of location
-- Description of your loop closure check implementation
-- Terminal output from a patrol run (copy-paste the log)
+Below is the watpoints used for the patrol. All measurements are poses done in the map frame.
 
+|Waypoint|Position (x,y)|Orientation (z,w)|Description|
+|:------:|:------------:|:---------------:|:---------:|
+|    0   |5.481, 0.697 |0.646, 0.763  |Middle row, west wall|
+|    1   |5.099, 4.019 |0.999, 0.038  |Back row, west wall|
+|    2   |-1.785, 2.106|-0.748, 0.664 |Between middle and back row, east wall|
+|    3   |-0.984, -3.599|-0.833, 0.554|Next to door. east wall|
+|    4   |2.764, -4.074|0.826, 0.562  |TA desk leg, north wall|
 
+The script runs a simple drift check against the known pose of the waypoints after each complete cycle to measure drift. Below is an example output of what this looks like. Note the values are not correct since there was no /amcl_pose topic to subscribe to in the rosbag this was tested on.
+
+![Drift Terminal Output](figures/drift.png)
 
 ## Terminal Output
 
@@ -232,3 +240,7 @@ $ ros2 run patrol patrol_node.py --cycles 3
 **Ian Mattson** did not use any GenAI for this project.
 
 **Jackson Newell** did not use any GenAI for this project.
+
+**Reid Beckes** used Generative AI (Copilot) to assist wit writing the patrol script for part 3. Specifically, it was used to understand how to incorporate command line arguments in the the script.
+- *Prompt:* What is the proper way to incorperate command line arguments in a python ros2 node?
+- *Verification:* The response was compared to the [argparse library documentation](https://docs.python.org/3/library/argparse.html) to understand the functions AI was providing me.
