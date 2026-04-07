@@ -148,9 +148,6 @@ To determine the correct size and placement of the zones in GIMP, we followed th
 I did not need to determine coordinates using this method, as all the zones could be drawn relative to known features.
 
 # Part 3 - Patrol Script
-- Description of your loop closure check implementation
-- Terminal output from a patrol run (copy-paste the log)
-
 Below is the watpoints used for the patrol. All measurements are poses done in the map frame.
 
 |Waypoint|Position (x,y)|Orientation (z,w)|Description|
@@ -161,6 +158,9 @@ Below is the watpoints used for the patrol. All measurements are poses done in t
 |    3   |-0.984, -3.599|-0.833, 0.554|Next to door. east wall|
 |    4   |2.764, -4.074|0.826, 0.562  |TA desk leg, north wall|
 
+The script runs a simple drift check against the known pose of the waypoints after each complete cycle to measure drift. Below is an example output of what this looks like. Note the values are not correct since there was no /amcl_pose topic to subscribe to in the rosbag this was tested on.
+
+![Drift Terminal Output](figures/drift.png)
 
 ## Terminal Output
 
